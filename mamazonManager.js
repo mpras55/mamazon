@@ -133,7 +133,44 @@ function addInventory() {
 
 function addProduct() {
 	console.log("Add new product");
-	confirmExit();
+	inquirer
+	.prompt([
+		{
+			type: "input",
+			message: "Enter the department: ",
+			name: "dept"
+		}
+		,{
+			type: "input",
+			message: "Enter the name of the product: ",
+			name: "prodname"
+		}
+		,{
+			type: "input",
+			message: "What is the price of the product?: ",
+			name: "prodprice"
+		}
+		,{
+			type: "input",
+			message: "What is the initial inventory?: ",
+			name: "prodqty"
+		}
+	])
+	.then(function (newProduct) {
+		// console.log(newProduct.dept, newProduct.prodname, newProduct.prodprice, newProduct.prodqty);
+		var newProdDept = newProduct.dept;
+		var newProdName = newProduct.prodname;
+		var newProdPrice = parseFloat(newProduct.prodprice);
+		var newProdQty = parseInt(newProduct.prodqty);
+
+		if (isNaN(newProdPrice) || isNaN(newProdQty)){
+			console.log("Price and Quantity should be a number.");
+			confirmExit();
+		} else{
+			insertProduct(newProdDept, newProdName, newProdPrice, newProdQty);
+		}
+	});
+
 }
 
 function confirmExit() {
@@ -181,6 +218,33 @@ function updateStock(prod, qty, inventory) {
 		function (err, res) {
 			if (err) throw err;
 			console.log("Inventory has been updated to " + newInventory + " for product code " + prodCode);
+			confirmExit();
+		}
+	);
+}
+
+function insertProduct(dept, prod, price, qty) {
+	var newProdDept = dept;
+	var newProdName = prod;
+	var newProdPrice = price;
+	var newProdQty = qty;
+
+	console.log("Adding product...");
+	// console.log(newProdDept, newProdName, newProdPrice, newProdQty);
+	connection.query(
+		"INSERT INTO products SET ?",
+		[
+			{
+				department_name: newProdDept
+				,product_name: newProdName
+				,price: newProdPrice
+				,stock_qty: newProdQty
+			}
+		],
+		function (err, res) {
+			if (err) throw err;
+			console.log("New product has been added. Your new product id is: " + res.insertId);
+			// console.log(res);
 			confirmExit();
 		}
 	);

@@ -22,7 +22,7 @@ VALUES
 ,("Dining Table","Home Goods",699.99,130)
 ,("Patio Set","Garden",899.99,65)
 ,("Unwanteds","Books",16.25,9)
-,("Laptop charger","Electronics",21.50,20)
+,("Asus Chromebook","Electronics",599.99,20)
 ,("Brooks Ghost 10 Sneakers","Sports",120.00,456)
 ,("Eloquent JavaScript","Books",46.95,823)
 ,("Priya Mixer Grinder","Home Goods",245.10,9)
